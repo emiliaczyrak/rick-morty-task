@@ -4,7 +4,7 @@
       <h1 class="new-message__head-text">Send a new message</h1>
     </div>
     <div class="new-message__content">
-      <form class="new-message__form" action="">
+      <form @submit.prevent="sendMessage" class="new-message__form" action="">
         <div class="new-message__input-group">
           <div class="new-message__label-group">
             <label
@@ -56,6 +56,7 @@
             cols="30"
             rows="8"
             placeholder="Enter message here..."
+            @blur="validateMsg"
             required
           ></textarea>
           <p v-if="msgValidate === false" class="new-message__invalid">
@@ -117,22 +118,44 @@ export default {
     const characterValidate = ref(true);
     const setName = (name) => {
       characterName.value = name;
+      characterValidate.value = true;
+    };
+    const validateMsg = () => {
+      if (enteredMsg.value === null) {
+        msgValidate.value = false;
+      } else if (
+        enteredMsg.value.trim().length > 3 &&
+        enteredMsg.value.trim().length < 256
+      ) {
+        msgValidate.value = true;
+      } else {
+        msgValidate.value = false;
+      }
+    };
+    const validateTitle = () => {
+      const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
+      const areSpecial = specialChars.test(enteredTitle.value);
+      if (enteredTitle.value === null || areSpecial) {
+        titleValidate.value = false;
+      } else if (
+        enteredTitle.value.trim().length >= 3 &&
+        enteredTitle.value.trim().length <= 32
+      ) {
+        titleValidate.value = true;
+      } else {
+        titleValidate.value = false;
+      }
     };
     const sendMessage = () => {
-      if (
-        enteredMsg.value === null &&
-        characterName.value === null &&
-        enteredTitle.value === null
-      ) {
+      if (enteredMsg.value === null || msgValidate.value === false) {
         msgValidate.value = false;
-        titleValidate.value = false;
+      }
+      if (characterName.value === null || characterValidate.value === false) {
         characterValidate.value = false;
-      } else if (
-        enteredMsg.value.trim().length > 0 &&
-        enteredMsg.value.trim().length < 256 &&
-        characterName.value &&
-        enteredTitle.value
-      ) {
+      }
+      if (enteredTitle.value === null || titleValidate.value === false) {
+        titleValidate.value = false;
+      } if (msgValidate.value && characterValidate.value && titleValidate.value) {
         const charact = characters.value.find(
           (char) => characterName.value == char.name
         );
@@ -153,20 +176,6 @@ export default {
       }
     };
     emit("messages-list", messages);
-    const validateTitle = () => {
-      const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
-      const areSpecial = specialChars.test(enteredTitle.value);
-      if (enteredTitle.value === null || areSpecial) {
-        titleValidate.value = false;
-      } else if (
-        enteredTitle.value.trim().length >= 3 &&
-        enteredTitle.value.trim().length <= 32
-      ) {
-        titleValidate.value = true;
-      } else {
-        titleValidate.value = false;
-      }
-    };
 
     return {
       sendMessage,
@@ -177,6 +186,7 @@ export default {
       titleValidate,
       msgValidate,
       characterValidate,
+      validateMsg,
     };
   },
 };
