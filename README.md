@@ -1,5 +1,7 @@
 # rick-morty-task
 
+live: https://rick-morty-task.netlify.app
+
 ## Project setup
 ```
 npm install
