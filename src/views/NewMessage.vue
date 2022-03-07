@@ -122,7 +122,7 @@ export default {
       if (
         enteredMsg.value === null &&
         characterName.value === null &&
-        titleValidate.value === false
+        enteredTitle.value === null
       ) {
         msgValidate.value = false;
         titleValidate.value = false;
@@ -130,10 +130,8 @@ export default {
       } else if (
         enteredMsg.value.trim().length > 0 &&
         enteredMsg.value.trim().length < 256 &&
-        enteredMsg.value &&
-        characterValidate.value &&
-        titleValidate.value
-        // niestety zabraklo mi czasu na dopracowanie walidacji, stad takie glupoty :)
+        characterName.value &&
+        enteredTitle.value
       ) {
         const charact = characters.value.find(
           (char) => characterName.value == char.name
