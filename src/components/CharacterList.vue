@@ -89,8 +89,10 @@ $red: #de212b;
   }
   &__arrow {
     transform: rotate(180deg);
+    transition: all 0.2s;
     &--up {
       transform: rotate(0deg);
+      transition: all 0.2s;
     }
   }
   &__datalist {
@@ -121,10 +123,12 @@ $red: #de212b;
   &-enter-from,
   &-leave-to {
     opacity: 0;
+    max-height: 0px;
   }
   &-enter-to,
   &-leave-from {
     opacity: 1;
+    max-height: 1000px;
   }
   &-enter-active,
   &-leave-active {

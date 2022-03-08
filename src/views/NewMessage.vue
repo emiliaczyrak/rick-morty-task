@@ -155,7 +155,8 @@ export default {
       }
       if (enteredTitle.value === null || titleValidate.value === false) {
         titleValidate.value = false;
-      } if (msgValidate.value && characterValidate.value && titleValidate.value) {
+      }
+      if (msgValidate.value && characterValidate.value && titleValidate.value) {
         const charact = characters.value.find(
           (char) => characterName.value == char.name
         );
@@ -228,7 +229,6 @@ $red: #de212b;
     font-size: 14px;
     display: flex;
     flex-direction: column;
-    height: 73vh;
   }
   &__input {
     width: 100%;
@@ -260,12 +260,12 @@ $red: #de212b;
   &__button {
     display: flex;
     justify-content: flex-end;
-    align-items: flex-end;
     flex-grow: 1;
   }
   &__send-button {
     width: 90px;
     height: 38px;
+    margin: 20px 0;
     color: white;
     border-radius: 19px;
     border: none;
