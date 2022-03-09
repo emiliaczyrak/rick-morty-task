@@ -111,9 +111,9 @@ export default {
       characterValidate.value = true;
     };
     const validateMsg = () => {
-      if (enteredMsg.value === null) {
+      if (enteredMsg.value === null || enteredMsg.value.trim().length >= 256) {
         msgValidate.value = false;
-      } else if (enteredMsg.value.trim().length < 256) {
+      } else {
         msgValidate.value = true;
       }
     };
