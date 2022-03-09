@@ -9,7 +9,7 @@
         },
       ]"
     >
-      <div class="select-character__default">
+      <div class="select-character__name">
         {{ chosenCharacter }}
       </div>
       <div
@@ -21,7 +21,7 @@
         <img src="../assets/arrow.svg" alt="arrow" />
       </div>
     </div>
-    <transition name="character-list">
+    <transition name="select-character">
       <div v-if="isDropdownVisible" class="select-character__datalist">
         <ul class="select-character__list">
           <li
@@ -38,14 +38,14 @@
   </div>
 </template>
 <script>
-import { ref, inject, toRef } from "vue";
+import { ref, inject } from "vue";
 export default {
   emits: ["chosen-name"],
   setup(props, { emit }) {
     const isDropdownVisible = ref(false);
     const chosenCharacter = ref("Pick a character");
     const characters = inject("characters");
-    const charValidate = toRef(props, "charValidate");
+
     const toggleDropdown = () => {
       isDropdownVisible.value = !isDropdownVisible.value;
     };
@@ -60,7 +60,6 @@ export default {
       characters,
       setName,
       chosenCharacter,
-      charValidate,
     };
   },
 };
@@ -84,7 +83,7 @@ $red: #de212b;
       border-color: $red;
     }
   }
-  &__default {
+  &__name {
     flex-grow: 1;
   }
   &__arrow {
@@ -118,8 +117,6 @@ $red: #de212b;
       background-color: $hover-gray;
     }
   }
-}
-.character-list {
   &-enter-from,
   &-leave-to {
     opacity: 0;

@@ -17,11 +17,11 @@ export default {
       .then((response) => response.json())
       .then((data) => (characters.value = data.results));
     provide("characters", characters);
-    const setMessages = (tab) => {
-      messages.value = tab.value;
+    const setMessages = (mess) => {
+      messages.value = mess.value;
     };
     provide("messages", messages);
-    return { characters, setMessages };
+    return { setMessages };
   },
 };
 </script>

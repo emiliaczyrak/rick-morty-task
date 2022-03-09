@@ -13,8 +13,6 @@
                 { 'new-message__label--invalid': !titleValidate },
               ]"
               for="title"
-              min="3"
-              max="32xw"
               >Title</label
             >
           </div>
@@ -26,10 +24,9 @@
             ]"
             type="text"
             placeholder="Enter title here..."
-            required
             @blur="validateTitle"
           />
-          <p v-if="titleValidate === false" class="new-message__invalid">
+          <p v-if="!titleValidate" class="new-message__invalid">
             Please enter the title
           </p>
         </div>
@@ -41,7 +38,6 @@
                 { 'new-message__label--invalid': !msgValidate },
               ]"
               for="message"
-              max="256"
               >Message</label
             >
           </div>
@@ -57,9 +53,8 @@
             rows="8"
             placeholder="Enter message here..."
             @blur="validateMsg"
-            required
           ></textarea>
-          <p v-if="msgValidate === false" class="new-message__invalid">
+          <p v-if="!msgValidate" class="new-message__invalid">
             Please enter the message
           </p>
         </div>
@@ -75,16 +70,11 @@
             >
           </div>
           <div class="new-message__datalist">
-            <character-list
-              :char-validate="characterValidate"
-              @chosen-name="setName"
-            ></character-list>
+            <character-list @chosen-name="setName"></character-list>
           </div>
         </div>
         <div class="new-message__button">
-          <button class="new-message__send-button" @click.prevent="sendMessage">
-            Send
-          </button>
+          <button class="new-message__send-button">Send</button>
         </div>
       </form>
     </div>
@@ -98,7 +88,7 @@ export default {
   components: {
     CharacterList,
   },
-  props: ["charValidate"],
+
   emits: ["messages-list"],
   setup(props, { emit }) {
     const characterName = ref(null);
@@ -123,37 +113,30 @@ export default {
     const validateMsg = () => {
       if (enteredMsg.value === null) {
         msgValidate.value = false;
-      } else if (
-        enteredMsg.value.trim().length > 3 &&
-        enteredMsg.value.trim().length < 256
-      ) {
+      } else if (enteredMsg.value.trim().length < 256) {
         msgValidate.value = true;
-      } else {
-        msgValidate.value = false;
       }
     };
     const validateTitle = () => {
       const specialChars = /[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/;
       const areSpecial = specialChars.test(enteredTitle.value);
-      if (enteredTitle.value === null || areSpecial) {
+      if (!enteredTitle.value || areSpecial) {
         titleValidate.value = false;
       } else if (
         enteredTitle.value.trim().length >= 3 &&
         enteredTitle.value.trim().length <= 32
       ) {
         titleValidate.value = true;
-      } else {
-        titleValidate.value = false;
       }
     };
     const sendMessage = () => {
-      if (enteredMsg.value === null || msgValidate.value === false) {
+      if (!enteredMsg.value || !msgValidate.value) {
         msgValidate.value = false;
       }
-      if (characterName.value === null || characterValidate.value === false) {
+      if (!characterName.value || !characterValidate.value) {
         characterValidate.value = false;
       }
-      if (enteredTitle.value === null || titleValidate.value === false) {
+      if (!enteredTitle.value || !titleValidate.value) {
         titleValidate.value = false;
       }
       if (msgValidate.value && characterValidate.value && titleValidate.value) {
