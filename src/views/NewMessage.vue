@@ -127,6 +127,8 @@ export default {
         enteredTitle.value.trim().length <= 32
       ) {
         titleValidate.value = true;
+      } else {
+        titleValidate.value = false;
       }
     };
     const sendMessage = () => {
