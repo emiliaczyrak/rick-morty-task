@@ -70,7 +70,10 @@
             >
           </div>
           <div class="new-message__datalist">
-            <character-list @chosen-name="setName"></character-list>
+            <character-list
+              :toggle-name="toggleName"
+              @chosen-name="setName"
+            ></character-list>
           </div>
         </div>
         <div class="new-message__button">
@@ -96,9 +99,7 @@ export default {
     const enteredMsg = ref(null);
     const messages = ref([]);
     const characters = inject("characters");
-    if (sessionStorage.getItem("messages")) {
-      messages.value = JSON.parse(sessionStorage.getItem("messages"));
-    }
+    const toggleName = ref(false);
     const today = new Date();
     const day = String(today.getDate()).padStart(2, "0");
     const month = String(today.getMonth() + 1).padStart(2, "0");
@@ -106,6 +107,9 @@ export default {
     const titleValidate = ref(true);
     const msgValidate = ref(true);
     const characterValidate = ref(true);
+    if (sessionStorage.getItem("messages")) {
+      messages.value = JSON.parse(sessionStorage.getItem("messages"));
+    }
     const setName = (name) => {
       characterName.value = name;
       characterValidate.value = true;
@@ -159,6 +163,7 @@ export default {
         titleValidate.value = true;
         msgValidate.value = true;
         characterValidate.value = true;
+        toggleName.value = !toggleName.value;
       }
     };
     emit("messages-list", messages);
@@ -173,6 +178,7 @@ export default {
       msgValidate,
       characterValidate,
       validateMsg,
+      toggleName,
     };
   },
 };

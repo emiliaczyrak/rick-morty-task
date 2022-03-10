@@ -38,14 +38,19 @@
   </div>
 </template>
 <script>
-import { ref, inject } from "vue";
+import { ref, inject, watch, toRef } from "vue";
 export default {
   emits: ["chosen-name"],
+  props: ["toggleName"],
   setup(props, { emit }) {
+    const defaultName = "Pick a character";
     const isDropdownVisible = ref(false);
-    const chosenCharacter = ref("Pick a character");
+    const chosenCharacter = ref(defaultName);
     const characters = inject("characters");
-
+    const toggleName = toRef(props, "toggleName");
+    watch(toggleName, () => {
+      chosenCharacter.value = defaultName;
+    });
     const toggleDropdown = () => {
       isDropdownVisible.value = !isDropdownVisible.value;
     };
